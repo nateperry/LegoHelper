@@ -15,6 +15,7 @@
 		3F7D0A731A1EA42800D7BA01 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F7D0A721A1EA42800D7BA01 /* Images.xcassets */; };
 		3F7D0A761A1EA42800D7BA01 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7D0A741A1EA42800D7BA01 /* LaunchScreen.xib */; };
 		3F7D0A821A1EA42800D7BA01 /* LegoHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A811A1EA42800D7BA01 /* LegoHelperTests.m */; };
+		3F7D0A8F1A1EA6CE00D7BA01 /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		3F7D0A7B1A1EA42800D7BA01 /* LegoHelperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LegoHelperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F7D0A801A1EA42800D7BA01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F7D0A811A1EA42800D7BA01 /* LegoHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LegoHelperTests.m; sourceTree = "<group>"; };
+		3F7D0A8D1A1EA6CE00D7BA01 /* Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loader.h; sourceTree = "<group>"; };
+		3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Loader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,12 +87,10 @@
 		3F7D0A611A1EA42800D7BA01 /* LegoHelper */ = {
 			isa = PBXGroup;
 			children = (
+				3F7D0A8C1A1EA6AF00D7BA01 /* Models */,
+				3F7D0A8B1A1EA6A000D7BA01 /* VC */,
 				3F7D0A661A1EA42800D7BA01 /* AppDelegate.h */,
 				3F7D0A671A1EA42800D7BA01 /* AppDelegate.m */,
-				3F7D0A691A1EA42800D7BA01 /* MasterViewController.h */,
-				3F7D0A6A1A1EA42800D7BA01 /* MasterViewController.m */,
-				3F7D0A6C1A1EA42800D7BA01 /* DetailViewController.h */,
-				3F7D0A6D1A1EA42800D7BA01 /* DetailViewController.m */,
 				3F7D0A6F1A1EA42800D7BA01 /* Main.storyboard */,
 				3F7D0A721A1EA42800D7BA01 /* Images.xcassets */,
 				3F7D0A741A1EA42800D7BA01 /* LaunchScreen.xib */,
@@ -122,6 +123,26 @@
 				3F7D0A801A1EA42800D7BA01 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3F7D0A8B1A1EA6A000D7BA01 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				3F7D0A691A1EA42800D7BA01 /* MasterViewController.h */,
+				3F7D0A6A1A1EA42800D7BA01 /* MasterViewController.m */,
+				3F7D0A6C1A1EA42800D7BA01 /* DetailViewController.h */,
+				3F7D0A6D1A1EA42800D7BA01 /* DetailViewController.m */,
+			);
+			name = VC;
+			sourceTree = "<group>";
+		};
+		3F7D0A8C1A1EA6AF00D7BA01 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3F7D0A8D1A1EA6CE00D7BA01 /* Loader.h */,
+				3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +249,7 @@
 				3F7D0A6B1A1EA42800D7BA01 /* MasterViewController.m in Sources */,
 				3F7D0A651A1EA42800D7BA01 /* main.m in Sources */,
 				3F7D0A6E1A1EA42800D7BA01 /* DetailViewController.m in Sources */,
+				3F7D0A8F1A1EA6CE00D7BA01 /* Loader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +442,7 @@
 				3F7D0A871A1EA42800D7BA01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3F7D0A881A1EA42800D7BA01 /* Build configuration list for PBXNativeTarget "LegoHelperTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +451,7 @@
 				3F7D0A8A1A1EA42800D7BA01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
