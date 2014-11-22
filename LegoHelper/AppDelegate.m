@@ -25,7 +25,8 @@
     splitViewController.delegate = self;
     
     // load inital data
-    [[Loader alloc] initWithData];
+    Loader *loader = [[Loader alloc] init];
+    
     return YES;
 }
 

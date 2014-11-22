@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Loader : NSObject
-
--(instancetype) initWithData;
+@interface Loader : NSObject<NSXMLParserDelegate>
 
 @end
