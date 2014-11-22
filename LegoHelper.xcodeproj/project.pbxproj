@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0408B11A21252D00F76411 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0408B01A21252D00F76411 /* DataStore.m */; };
 		3F7D0A651A1EA42800D7BA01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A641A1EA42800D7BA01 /* main.m */; };
 		3F7D0A681A1EA42800D7BA01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A671A1EA42800D7BA01 /* AppDelegate.m */; };
 		3F7D0A6B1A1EA42800D7BA01 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A6A1A1EA42800D7BA01 /* MasterViewController.m */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F0408AF1A21252D00F76411 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStore.h; sourceTree = "<group>"; };
+		3F0408B01A21252D00F76411 /* DataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStore.m; sourceTree = "<group>"; };
 		3F7D0A5F1A1EA42800D7BA01 /* LegoHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegoHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F7D0A631A1EA42800D7BA01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F7D0A641A1EA42800D7BA01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 			children = (
 				3F7D0A8D1A1EA6CE00D7BA01 /* Loader.h */,
 				3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */,
+				3F0408AF1A21252D00F76411 /* DataStore.h */,
+				3F0408B01A21252D00F76411 /* DataStore.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 				3F7D0A651A1EA42800D7BA01 /* main.m in Sources */,
 				3F7D0A6E1A1EA42800D7BA01 /* DetailViewController.m in Sources */,
 				3F7D0A8F1A1EA6CE00D7BA01 /* Loader.m in Sources */,
+				3F0408B11A21252D00F76411 /* DataStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "Loader.h"
+#import "DataStore.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
@@ -24,8 +25,13 @@
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
     
-    // load inital data
+    /*
+    * Load in appropriate data
+    * Put that Data in the DataStore
+    */
     Loader *loader = [[Loader alloc] init];
+    
+    NSLog(@"DATASTORE = %@", [DataStore sharedStore].allItems);
     
     return YES;
 }

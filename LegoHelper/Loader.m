@@ -7,6 +7,7 @@
 //
 
 #import "Loader.h"
+#import "DataStore.h"
 #import <UIKit/UIKit.h>
 
 // Cubiculus
@@ -32,7 +33,7 @@ NSMutableString *_elementValue;
     self = [super init];
     if (self) {
         [self loadAllThemes];
-        [self loadSet:@"10187"];
+        // [self loadSet:@"10187"];
     }
     return self;
 }
@@ -69,10 +70,6 @@ NSMutableString *_elementValue;
 
 // download the data via NSURLSession
 - (void) loadSet:(NSString *)setID {
-    
-    /**
-     * SEE: http://stackoverflow.com/questions/19099448/send-post-request-using-nsurlsession
-     */
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     // add API KEY
@@ -162,6 +159,7 @@ NSMutableString *_elementValue;
 // parsing complete
 - (void) parserDidEndDocument:(NSXMLParser *)parser {
     NSLog(@"THEMES = %@", _themes);
+    [DataStore sharedStore].allItems = _themes;
 }
 
 // sets current element
