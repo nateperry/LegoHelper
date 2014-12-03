@@ -30,8 +30,9 @@
     * Put that Data in the DataStore
     */
     Loader *loader = [[Loader alloc] init];
+    [loader loadAllThemes];
     
-    NSLog(@"DATASTORE = %@", [DataStore sharedStore].allItems);
+    //NSLog(@"DATASTORE = %@", [DataStore sharedStore].allItems);
     
     return YES;
 }

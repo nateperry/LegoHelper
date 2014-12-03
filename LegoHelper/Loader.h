@@ -10,6 +10,8 @@
 
 @interface Loader : NSObject<NSXMLParserDelegate>
 
-@property (nonatomic, copy) NSMutableArray *themes;
-
+- (void) loadAllThemes;
+- (void) loadSubThemes:(id)theme;
+- (void) loadSet:(NSString *)setID;
+    
 @end

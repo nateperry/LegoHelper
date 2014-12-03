@@ -18,6 +18,7 @@
 		3F7D0A761A1EA42800D7BA01 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3F7D0A741A1EA42800D7BA01 /* LaunchScreen.xib */; };
 		3F7D0A821A1EA42800D7BA01 /* LegoHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A811A1EA42800D7BA01 /* LegoHelperTests.m */; };
 		3F7D0A8F1A1EA6CE00D7BA01 /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */; };
+		3F8936591A2FC472006CC78B /* loader.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F8936581A2FC472006CC78B /* loader.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		3F7D0A811A1EA42800D7BA01 /* LegoHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LegoHelperTests.m; sourceTree = "<group>"; };
 		3F7D0A8D1A1EA6CE00D7BA01 /* Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loader.h; sourceTree = "<group>"; };
 		3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Loader.m; sourceTree = "<group>"; };
+		3F8936581A2FC472006CC78B /* loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loader.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 		3F7D0A611A1EA42800D7BA01 /* LegoHelper */ = {
 			isa = PBXGroup;
 			children = (
+				3F8936571A2FC455006CC78B /* Images */,
 				3F7D0A8C1A1EA6AF00D7BA01 /* Models */,
 				3F7D0A8B1A1EA6A000D7BA01 /* VC */,
 				3F7D0A661A1EA42800D7BA01 /* AppDelegate.h */,
@@ -153,6 +156,14 @@
 				3F0408B01A21252D00F76411 /* DataStore.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		3F8936571A2FC455006CC78B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				3F8936581A2FC472006CC78B /* loader.gif */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F7D0A711A1EA42800D7BA01 /* Main.storyboard in Resources */,
+				3F8936591A2FC472006CC78B /* loader.gif in Resources */,
 				3F7D0A761A1EA42800D7BA01 /* LaunchScreen.xib in Resources */,
 				3F7D0A731A1EA42800D7BA01 /* Images.xcassets in Resources */,
 			);

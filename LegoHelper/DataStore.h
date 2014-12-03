@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface DataStore : NSObject
-@property (nonatomic) NSMutableArray *allItems;
+@property (nonatomic) NSMutableArray *themes;
+@property (nonatomic) NSMutableArray *subThemes;
 
 + (instancetype) sharedStore;
 

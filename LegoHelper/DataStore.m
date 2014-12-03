@@ -27,7 +27,8 @@
 -(instancetype)initPrivate {
     self = [super init];
     if (self) {
-        self.allItems = [[NSMutableArray alloc] init];
+        self.themes = [[NSMutableArray alloc] init];
+        self.subThemes = [[NSMutableArray alloc] init];
     }
     return self;
 }

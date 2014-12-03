@@ -24,20 +24,16 @@ NSMutableArray *_data;
 NSURLSession *_session;
 
 NSMutableArray *_themes;
+NSMutableArray *_subThemes;
 
 // for XML Parsing
 NSString *currentElement;
 NSMutableString *_elementValue;
 
-- (instancetype) init {
-    self = [super init];
-    if (self) {
-        [self loadAllThemes];
-        // [self loadSet:@"10187"];
-    }
-    return self;
-}
+bool _isSubThemeRequest = FALSE;
 
+// DataTask
+NSURLSessionDataTask *_dataTask;
 
 // download the data via NSURLSession
 - (void) loadAllThemes {
@@ -61,11 +57,36 @@ NSMutableString *_elementValue;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     
     // request resource
-    NSURLSessionDataTask *dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){[self completionHandler:data :response :error :FALSE];}];
+    _dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){[self completionHandler:data :response :error :FALSE];}];
     
     // resume dataTask
-    [dataTask resume];
+    [_dataTask resume];
+}
+
+- (void) loadSubThemes:(id)theme {
+    //init sub themes
+    _subThemes = [NSMutableArray array];
     
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    
+    //create new session
+    _session = [NSURLSession sessionWithConfiguration:config];
+    
+    //show the activity indicator
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    //the url
+    NSString *string = [NSString stringWithFormat:@"%@getSubthemes?apiKey=%@&Theme=%@", BRICKSET_API_URL, BRICKSET_API_KEY, theme];
+    NSURL *url = [NSURL URLWithString:[string stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding]];
+    
+    //build request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    //request resource
+    _dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){[self completionHandler:data :response :error :FALSE];}];
+    
+    //resume dataTask
+    [_dataTask resume];
 }
 
 // download the data via NSURLSession
@@ -83,16 +104,17 @@ NSMutableString *_elementValue;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // the url
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",CUBICULUS_API_SINGLESET_URL,setID]];
+    NSString *string = [NSString stringWithFormat:@"%@%@",CUBICULUS_API_SINGLESET_URL,setID];
+    NSURL *url = [NSURL URLWithString:[string stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding]];
     
     // build request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
 
     // request resource
-    NSURLSessionDataTask *dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){[self completionHandler:data :response :error :TRUE];}];
+    _dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){[self completionHandler:data :response :error :TRUE];}];
     
     // resume dataTask
-    [dataTask resume];
+    [_dataTask resume];
     
 }
 
@@ -158,14 +180,36 @@ NSMutableString *_elementValue;
 
 // parsing complete
 - (void) parserDidEndDocument:(NSXMLParser *)parser {
-    NSLog(@"THEMES = %@", _themes);
-    [DataStore sharedStore].allItems = _themes;
+    
+    if (! _isSubThemeRequest) {
+        NSLog(@"THEMES = %@", _themes);
+        [DataStore sharedStore].themes = _themes;
+        
+        //post the notif
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"ThemesDidLoad"
+         object:nil];
+    } else {
+        NSLog(@"SUBTHEMES = %@", _subThemes);
+        [DataStore sharedStore].subThemes = _subThemes;
+    }
+    
+    // end the data session
+    //[_dataTask cancel];
 }
 
 // sets current element
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
     _elementValue = [[NSMutableString alloc] init];
     if ([elementName isEqualToString:@"theme"]) {
+        currentElement = [elementName copy];
+    }
+    
+    if([elementName isEqualToString:@"ArrayOfSubthemes"]) {
+        _isSubThemeRequest = TRUE;
+    }
+    
+    if (_isSubThemeRequest && [elementName isEqualToString:@"subtheme"]) {
         currentElement = [elementName copy];
     }
 }
@@ -175,13 +219,19 @@ NSMutableString *_elementValue;
     if ([elementName isEqualToString:@"theme"]) {
         [_themes addObject:_elementValue];
     }
+    if ([elementName isEqualToString:@"subtheme"]) {
+        [_subThemes addObject:_elementValue];
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
-    if ([currentElement isEqualToString:@"theme"]) {
+    if ([currentElement isEqualToString:@"theme"] || [currentElement isEqualToString:@"subtheme"]) {
+        // remove the quotes
+        NSString *str = [string stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         // add the trimmed theme name
-        [_elementValue appendString:[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        [_elementValue appendString:[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     }
+
 }
 
 
