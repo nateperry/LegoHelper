@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "Loader.h"
+#import "LoaderModal.h"
 #import "DataStore.h"
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
@@ -24,6 +25,11 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
+    
+    
+    
+    // TODO: [splitViewController performSegueWithIdentifier:@"showModalSegue" sender:splitViewController];
+    
     
     /*
     * Load in appropriate data
@@ -68,6 +74,21 @@
     } else {
         return NO;
     }
+}
+
+#pragma mark - Seque
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    // initially show loader modal
+    /*
+    if([segue.identifier isEqualToString:@"showModalSegue"])
+    {
+        LoaderModal *modal = (LoaderModal *)segue.destinationViewController;
+    }*/
+    
+    
 }
 
 @end

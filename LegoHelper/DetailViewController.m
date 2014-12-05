@@ -10,11 +10,34 @@
 #import "Loader.h"
 #import "DataStore.h"
 
-@interface DetailViewController ()
+@interface DetailViewController () <UITableViewDelegate>
+
+@property IBOutlet UITableView *tableView;
 
 @end
 
 @implementation DetailViewController
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    // subscribe to SubThemeDidLoad notificaiton
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(subThemesDidLoad:)
+     name:@"SubThemesDidLoad" object:nil];
+    
+}
+
+- (void)subThemesDidLoad:(NSNotification*)notification{
+    //refresh master view
+    // TODO: Look into this running twice
+    // NSLog(@"subthemes loaded");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self performSegueWithIdentifier:@"showSubthemeList" sender:self];
+    });
+}
 
 #pragma mark - Managing the detail item
 
@@ -42,6 +65,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    
     //not sure what we need here yet - may just have a default view to tell the user what to do.
     
     [self configureView];
@@ -65,6 +89,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
+    NSLog(@"CELL = %@", [[DataStore sharedStore].subThemes objectAtIndex:indexPath.row]);
     cell.textLabel.text = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.row];
     return cell;
 }

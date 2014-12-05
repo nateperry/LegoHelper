@@ -20,6 +20,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    // subscribe to ThemeDidLoad notificaiton
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(themesDidLoad:)
@@ -33,7 +34,7 @@
 
 - (void)themesDidLoad:(NSNotification*)notification{
     //refresh master view
-    NSLog(@"themes laoded");
+    NSLog(@"themes loaded");
     //reload the data on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];

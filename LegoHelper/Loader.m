@@ -192,6 +192,11 @@ NSURLSessionDataTask *_dataTask;
     } else {
         NSLog(@"SUBTHEMES = %@", _subThemes);
         [DataStore sharedStore].subThemes = _subThemes;
+        
+        //post the notif
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"SubThemesDidLoad"
+         object:nil];
     }
     
     // end the data session
@@ -216,18 +221,19 @@ NSURLSessionDataTask *_dataTask;
 
 // adds the value of the node to the array
 - (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if ([elementName isEqualToString:@"theme"]) {
+    if ([elementName isEqualToString:@"theme"] && ! [_elementValue containsString:@"{Undefined}"]) {
         [_themes addObject:_elementValue];
     }
-    if ([elementName isEqualToString:@"subtheme"]) {
+    if ([elementName isEqualToString:@"subtheme"] && ! [_elementValue containsString:@"{None}"]) {
         [_subThemes addObject:_elementValue];
     }
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
     if ([currentElement isEqualToString:@"theme"] || [currentElement isEqualToString:@"subtheme"]) {
+        
         // remove the quotes
-        NSString *str = [string stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        NSString *str = [string stringByReplacingOccurrencesOfString:@"\'" withString:@""];
         // add the trimmed theme name
         [_elementValue appendString:[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     }
