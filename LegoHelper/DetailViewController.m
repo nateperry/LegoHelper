@@ -21,7 +21,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     // subscribe to SubThemeDidLoad notificaiton
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -33,10 +32,17 @@
 - (void)subThemesDidLoad:(NSNotification*)notification{
     //refresh master view
     // TODO: Look into this running twice
-    // NSLog(@"subthemes loaded");
+    
+    if ([DataStore sharedStore].subThemes.count == 0 || [DataStore sharedStore].subThemes == nil) {
+        // [[DataStore sharedStore].subThemes addObject:[DataStore sharedStore].currentTheme];
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"subthemes loaded");
         [self performSegueWithIdentifier:@"showSubthemeList" sender:self];
     });
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Managing the detail item
@@ -44,7 +50,7 @@
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-            
+        [DataStore sharedStore].currentTheme = _detailItem;
         // Update the view.
         [self configureView];
     }
@@ -57,14 +63,18 @@
         NSLog(@"Clicked %@", _detailItem);
         
         Loader *loader = [[Loader alloc] init];
-        [loader loadSubThemes:_detailItem];
+        //[loader loadSubThemes:_detailItem];
+        [loader loadSets:_detailItem];
     }
+    // makes sure button exists on detail page
+    self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    self.navigationItem.leftItemsSupplementBackButton = YES;
+    self.navigationItem.leftBarButtonItem.title = @"Themes";
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
     
     //not sure what we need here yet - may just have a default view to tell the user what to do.
     
@@ -93,5 +103,8 @@
     cell.textLabel.text = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.row];
     return cell;
 }
+
+#pragma mark - Segue
+
 
 @end

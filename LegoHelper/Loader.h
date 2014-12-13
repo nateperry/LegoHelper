@@ -14,5 +14,6 @@
 - (void) loadAllThemes;
 - (void) loadSubThemes:(id)theme;
 - (void) loadSet:(NSString *)setID;
+- (void) loadSets:(NSString *)themeName;
     
 @end

@@ -21,6 +21,7 @@
 		3F8936591A2FC472006CC78B /* loader.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F8936581A2FC472006CC78B /* loader.gif */; };
 		3FC36C1B1A3112D50060AC71 /* LoaderModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC36C1A1A3112D50060AC71 /* LoaderModal.m */; };
 		3FC36C1E1A312BB50060AC71 /* SubThemeTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC36C1D1A312BB50060AC71 /* SubThemeTableVC.m */; };
+		3FFC8F621A3CEF32003042E5 /* XMLConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8F611A3CEF32003042E5 /* XMLConverter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		3FC36C1A1A3112D50060AC71 /* LoaderModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoaderModal.m; sourceTree = "<group>"; };
 		3FC36C1C1A312BB50060AC71 /* SubThemeTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubThemeTableVC.h; sourceTree = "<group>"; };
 		3FC36C1D1A312BB50060AC71 /* SubThemeTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubThemeTableVC.m; sourceTree = "<group>"; };
+		3FFC8F601A3CEF32003042E5 /* XMLConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLConverter.h; sourceTree = "<group>"; };
+		3FFC8F611A3CEF32003042E5 /* XMLConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLConverter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +163,8 @@
 		3F7D0A8C1A1EA6AF00D7BA01 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3FFC8F601A3CEF32003042E5 /* XMLConverter.h */,
+				3FFC8F611A3CEF32003042E5 /* XMLConverter.m */,
 				3F7D0A8D1A1EA6CE00D7BA01 /* Loader.h */,
 				3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */,
 				3F0408AF1A21252D00F76411 /* DataStore.h */,
@@ -283,6 +288,7 @@
 				3F7D0A651A1EA42800D7BA01 /* main.m in Sources */,
 				3F7D0A6E1A1EA42800D7BA01 /* DetailViewController.m in Sources */,
 				3FC36C1B1A3112D50060AC71 /* LoaderModal.m in Sources */,
+				3FFC8F621A3CEF32003042E5 /* XMLConverter.m in Sources */,
 				3F7D0A8F1A1EA6CE00D7BA01 /* Loader.m in Sources */,
 				3F0408B11A21252D00F76411 /* DataStore.m in Sources */,
 				3F48A50F1A2293D000A77570 /* SubthemeCell.m in Sources */,

@@ -8,6 +8,8 @@
 
 #import "Loader.h"
 #import "DataStore.h"
+// XMLConveter Source: https://github.com/rsoldatenko/XMLConverter
+#import "XMLConverter.h"
 #import <UIKit/UIKit.h>
 
 // Cubiculus
@@ -17,6 +19,7 @@ NSString *CUBICULUS_API_SINGLESET_URL = @"https://cubiculussets.p.mashape.com/le
 // Brickset
 NSString *BRICKSET_API_KEY = @"llWF-mCRi-MhQV";
 NSString *BRICKSET_API_URL = @"http://brickset.com/api/v2.asmx/";
+NSString *BRICKSET_API_BS = @"&userHash=&query=&subtheme=&setNumber=&year=&owned=&wanted=&orderBy=&pageSize=&pageNumber=&userName=";
 
 @implementation Loader
 
@@ -89,6 +92,32 @@ NSURLSessionDataTask *_dataTask;
     [_dataTask resume];
 }
 
+// download all sets in a theme
+- (void) loadSets:(NSString *)themeName {
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    
+    //create new session
+    _session = [NSURLSession sessionWithConfiguration:config];
+    
+    //show the activity indicator
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    //the url
+    NSString *string = [NSString stringWithFormat:@"%@getSets?apiKey=%@&theme=%@%@", BRICKSET_API_URL, BRICKSET_API_KEY, themeName, BRICKSET_API_BS];
+    NSURL *url = [NSURL URLWithString:[string stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding]];
+    
+    //build request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    //request resource
+    _dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){[self completionHandler:data :response :error :FALSE];}];
+    
+    //resume dataTask
+    [_dataTask resume];
+    
+}
+
 // download the data via NSURLSession
 - (void) loadSet:(NSString *)setID {
     
@@ -149,11 +178,70 @@ NSURLSessionDataTask *_dataTask;
             } // end !jsonError
         } else {
             // convert XML to JSON
-            NSXMLParser *xmlParser = [[NSXMLParser alloc] initWithData:data];
-            xmlParser.delegate = self;
-            [xmlParser parse];
-        }
-    }
+            [XMLConverter convertXMLData:data completion:^(BOOL success, NSDictionary *dictionary, NSError *error)
+             {                 
+                 if (dictionary[@"ArrayOfThemes"]) {
+                     [DataStore sharedStore].themes = dictionary[@"ArrayOfThemes"][@"themes"];
+
+                     //post the notif
+                     [[NSNotificationCenter defaultCenter]
+                      postNotificationName:@"ThemesDidLoad"
+                      object:nil];
+                 }
+                 
+                 if (dictionary[@"ArrayOfSets"]) {
+                     [[DataStore sharedStore].subThemes removeAllObjects]; // reset the array
+                     
+                     for (NSDictionary *set in dictionary[@"ArrayOfSets"][@"sets"]) {
+                         NSMutableDictionary *newSubtheme;
+                         NSMutableArray *newArray;
+                         BOOL subthemeExists = FALSE;
+                         int subthemeIndex = 0;
+                         
+                         // adds the initial subtheme
+                         if ([DataStore sharedStore].subThemes.count == 0 || [DataStore sharedStore].subThemes == nil) {
+                             newSubtheme = [[NSMutableDictionary alloc] init];
+                             newArray = [NSMutableArray array];
+                             [newSubtheme setObject:newArray forKey:set[@"subtheme"]];
+                             
+                             [[DataStore sharedStore].subThemes addObject:newSubtheme];
+                         } else {
+                             // checks for all other subthemes
+                             for (int i = 0; i < [DataStore sharedStore].subThemes.count; i++) {
+                                 NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:i];
+                                 NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
+                                 
+                                 if([set[@"subtheme"] isEqualToString:subThemeName]){
+                                     subthemeExists = TRUE;
+                                     subthemeIndex = i;
+                                 }
+                             }
+                             
+                             // adds the new subtheme if needed
+                             if(subthemeExists == FALSE){
+                                 newSubtheme = [[NSMutableDictionary alloc] init];
+                                 newArray = [NSMutableArray array];
+                                 [newSubtheme setObject:newArray forKey:set[@"subtheme"]];
+                                 
+                                 [[DataStore sharedStore].subThemes addObject:newSubtheme];
+                             }
+                         }
+                         
+                         // add the set
+                         [[[DataStore sharedStore].subThemes objectAtIndex:subthemeIndex][set[@"subtheme"]] addObject:set];
+                     } //end for set in dictionary
+                     
+                     NSLog(@"Subthemes = %@",[DataStore sharedStore].subThemes);
+                     //post the notif
+                     [[NSNotificationCenter defaultCenter]
+                      postNotificationName:@"SubThemesDidLoad"
+                      object:nil];
+                     
+                 } //end if arrayofsets
+                
+             }];
+        } //end else
+    } // end if statuscode
 }
 
 // handles the response error
@@ -166,7 +254,7 @@ NSURLSessionDataTask *_dataTask;
     if (httpResp.statusCode == 200)
         return TRUE;
     else
-        NSLog(@"STATUSCODE = %i", httpResp.statusCode);
+        NSLog(@"STATUSCODE = %i, response = %@", httpResp.statusCode, httpResp);
         return FALSE;
 }
 
@@ -180,9 +268,9 @@ NSURLSessionDataTask *_dataTask;
 
 // parsing complete
 - (void) parserDidEndDocument:(NSXMLParser *)parser {
-    
+
     if (! _isSubThemeRequest) {
-        NSLog(@"THEMES = %@", _themes);
+        //NSLog(@"THEMES = %@", _themes);
         [DataStore sharedStore].themes = _themes;
         
         //post the notif
@@ -190,7 +278,7 @@ NSURLSessionDataTask *_dataTask;
          postNotificationName:@"ThemesDidLoad"
          object:nil];
     } else {
-        NSLog(@"SUBTHEMES = %@", _subThemes);
+        //NSLog(@"SUBTHEMES = %@", _subThemes);
         [DataStore sharedStore].subThemes = _subThemes;
         
         //post the notif
@@ -200,10 +288,11 @@ NSURLSessionDataTask *_dataTask;
     }
     
     // end the data session
-    //[_dataTask cancel];
+    [_dataTask cancel];
 }
 
 // sets current element
+/*
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
     _elementValue = [[NSMutableString alloc] init];
     if ([elementName isEqualToString:@"theme"]) {
@@ -239,6 +328,6 @@ NSURLSessionDataTask *_dataTask;
     }
 
 }
-
+*/
 
 @end
