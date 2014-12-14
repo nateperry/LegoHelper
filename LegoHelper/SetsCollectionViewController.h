@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SetsCollectionViewController : UICollectionViewController
-
+@property(nonatomic) CGSize headerReferenceSize;
 @end

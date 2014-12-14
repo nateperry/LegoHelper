@@ -8,6 +8,7 @@
 
 #import "SetsCollectionViewController.h"
 #import "SetsCollectionCellVC.h"
+#import "SectionHeaderCollectionReusableView.h"
 #import "DataStore.h"
 
 @interface SetsCollectionViewController ()
@@ -16,19 +17,15 @@
 
 @implementation SetsCollectionViewController
 
-int _currentSectionIndex;
-static NSString * const reuseIdentifier = @"Cell";
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
     // Do any additional setup after loading the view.
+    self.headerReferenceSize = CGSizeMake(200, 50);
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,7 +51,6 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    _currentSectionIndex = section;
     NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:section];
     
     NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
@@ -62,46 +58,25 @@ static NSString * const reuseIdentifier = @"Cell";
     return [subtheme[subThemeName] count];
 }
 
+// Creates the actual cells
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SetsCollectionCellVC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SetCell" forIndexPath:indexPath];
     
-    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:_currentSectionIndex];
+    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
     
     NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
     
     NSMutableArray *arrayOfSets = subtheme[subThemeName];
     
     NSDictionary *currentSet;
-
     
     if ([arrayOfSets count] > 0) {
-        NSLog(@"row = %i", indexPath.row);
         currentSet = [arrayOfSets objectAtIndex:indexPath.row];
         
-        // load the template
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"SetsCellTemplate" ofType:@"html"];
-        NSString *template = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-        NSMutableString *html = [NSMutableString stringWithString:template];
-        
-        // make substitutions
-        NSString *thumbnailPath = ! [currentSet[@"largeThumbnailURL"] isEqualToString:@""] ? currentSet[@"largeThumbnailURL"] : @"http://3.bp.blogspot.com/-fXcS1HZUQ3c/UauO7EeKzKI/AAAAAAAAU_U/mzwFdnFfpyo/s1600/pitr_LEGO_smiley_--_sad.png";
-        [html replaceOccurrencesOfString:@"[[[thumbnail]]]" withString:thumbnailPath options:NSLiteralSearch range:NSMakeRange(0, html.length)];
-        
-        CGRect frame = [cell.webView frame];
-        frame.size.height = 200;
-        frame.size.width = 200;
-        [cell.webView setFrame:frame];
-        
-        // load html string into webView
-        [cell.webView loadHTMLString:html baseURL:nil];
-        
-        cell.label.text = currentSet[@"name"];
+        // create the cell with helper method
+        cell = [cell buildCellWithSet:currentSet];
     }
-    
-    // Configure the cell
-    cell.backgroundColor = [UIColor redColor];
-    
-    
     return cell;
 }
 
@@ -146,6 +121,28 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(50, 20, 50, 20);
+}
+
+
+// adds section titles
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    
+    SectionHeaderCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
+                                   UICollectionElementKindSectionHeader withReuseIdentifier:@"SubthemeHeader" forIndexPath:indexPath];
+    [self updateSectionHeader:headerView forIndexPath:indexPath];
+    return headerView;
+}
+
+- (void)updateSectionHeader:(SectionHeaderCollectionReusableView *)header forIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
+    
+    NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
+    
+    header.label.text = subThemeName;
 }
 
 

@@ -234,7 +234,8 @@ NSURLSessionDataTask *_dataTask;
                          [[[DataStore sharedStore].subThemes objectAtIndex:[subthemeIndex intValue]][setsThemeName] addObject:set];
                      } //end for set in dictionary
                      
-                     NSLog(@"Subthemes = %@",[DataStore sharedStore].subThemes);
+                     // NSLog(@"Subthemes = %@",[DataStore sharedStore].subThemes);
+                     
                      //post the notif
                      [[NSNotificationCenter defaultCenter]
                       postNotificationName:@"SubThemesDidLoad"

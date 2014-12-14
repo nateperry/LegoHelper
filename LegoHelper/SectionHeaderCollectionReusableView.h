@@ -1,5 +1,5 @@
 //
-//  SetsCollectionCellVC.h
+//  SectionHeaderCollectionReusableView.h
 //  LegoHelper
 //
 //  Created by Student on 12/13/14.
@@ -8,11 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetsCollectionCellVC : UICollectionViewCell
+@interface SectionHeaderCollectionReusableView : UICollectionReusableView
 
-@property (nonatomic, strong) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UILabel *label;
-
-- (SetsCollectionCellVC *)buildCellWithSet:(NSDictionary *)currentSet;
 
 @end
