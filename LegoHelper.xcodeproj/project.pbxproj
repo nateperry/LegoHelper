@@ -22,6 +22,9 @@
 		3FC36C1B1A3112D50060AC71 /* LoaderModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC36C1A1A3112D50060AC71 /* LoaderModal.m */; };
 		3FC36C1E1A312BB50060AC71 /* SubThemeTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC36C1D1A312BB50060AC71 /* SubThemeTableVC.m */; };
 		3FFC8F621A3CEF32003042E5 /* XMLConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8F611A3CEF32003042E5 /* XMLConverter.m */; };
+		3FFC8F651A3CFA72003042E5 /* SetsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8F641A3CFA72003042E5 /* SetsCollectionViewController.m */; };
+		3FFC8F681A3D0099003042E5 /* SetsCollectionCellVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8F671A3D0099003042E5 /* SetsCollectionCellVC.m */; };
+		3FFC8F6B1A3D03CC003042E5 /* SetsCellTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = 3FFC8F6A1A3D03CB003042E5 /* SetsCellTemplate.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +66,11 @@
 		3FC36C1D1A312BB50060AC71 /* SubThemeTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubThemeTableVC.m; sourceTree = "<group>"; };
 		3FFC8F601A3CEF32003042E5 /* XMLConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLConverter.h; sourceTree = "<group>"; };
 		3FFC8F611A3CEF32003042E5 /* XMLConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLConverter.m; sourceTree = "<group>"; };
+		3FFC8F631A3CFA72003042E5 /* SetsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetsCollectionViewController.h; sourceTree = "<group>"; };
+		3FFC8F641A3CFA72003042E5 /* SetsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetsCollectionViewController.m; sourceTree = "<group>"; };
+		3FFC8F661A3D0099003042E5 /* SetsCollectionCellVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetsCollectionCellVC.h; sourceTree = "<group>"; };
+		3FFC8F671A3D0099003042E5 /* SetsCollectionCellVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetsCollectionCellVC.m; sourceTree = "<group>"; };
+		3FFC8F6A1A3D03CB003042E5 /* SetsCellTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SetsCellTemplate.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +112,7 @@
 		3F7D0A611A1EA42800D7BA01 /* LegoHelper */ = {
 			isa = PBXGroup;
 			children = (
+				3FFC8F691A3D039C003042E5 /* Data */,
 				3F8936571A2FC455006CC78B /* Images */,
 				3F7D0A8C1A1EA6AF00D7BA01 /* Models */,
 				3F7D0A8B1A1EA6A000D7BA01 /* VC */,
@@ -156,6 +165,10 @@
 				3FC36C1A1A3112D50060AC71 /* LoaderModal.m */,
 				3FC36C1C1A312BB50060AC71 /* SubThemeTableVC.h */,
 				3FC36C1D1A312BB50060AC71 /* SubThemeTableVC.m */,
+				3FFC8F631A3CFA72003042E5 /* SetsCollectionViewController.h */,
+				3FFC8F641A3CFA72003042E5 /* SetsCollectionViewController.m */,
+				3FFC8F661A3D0099003042E5 /* SetsCollectionCellVC.h */,
+				3FFC8F671A3D0099003042E5 /* SetsCollectionCellVC.m */,
 			);
 			name = VC;
 			sourceTree = "<group>";
@@ -179,6 +192,14 @@
 				3F8936581A2FC472006CC78B /* loader.gif */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		3FFC8F691A3D039C003042E5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3FFC8F6A1A3D03CB003042E5 /* SetsCellTemplate.html */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +286,7 @@
 				3F8936591A2FC472006CC78B /* loader.gif in Resources */,
 				3F7D0A761A1EA42800D7BA01 /* LaunchScreen.xib in Resources */,
 				3F7D0A731A1EA42800D7BA01 /* Images.xcassets in Resources */,
+				3FFC8F6B1A3D03CC003042E5 /* SetsCellTemplate.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,8 +309,10 @@
 				3F7D0A6B1A1EA42800D7BA01 /* MasterViewController.m in Sources */,
 				3F7D0A651A1EA42800D7BA01 /* main.m in Sources */,
 				3F7D0A6E1A1EA42800D7BA01 /* DetailViewController.m in Sources */,
+				3FFC8F681A3D0099003042E5 /* SetsCollectionCellVC.m in Sources */,
 				3FC36C1B1A3112D50060AC71 /* LoaderModal.m in Sources */,
 				3FFC8F621A3CEF32003042E5 /* XMLConverter.m in Sources */,
+				3FFC8F651A3CFA72003042E5 /* SetsCollectionViewController.m in Sources */,
 				3F7D0A8F1A1EA6CE00D7BA01 /* Loader.m in Sources */,
 				3F0408B11A21252D00F76411 /* DataStore.m in Sources */,
 				3F48A50F1A2293D000A77570 /* SubthemeCell.m in Sources */,

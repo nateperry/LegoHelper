@@ -193,27 +193,29 @@ NSURLSessionDataTask *_dataTask;
                      [[DataStore sharedStore].subThemes removeAllObjects]; // reset the array
                      
                      for (NSDictionary *set in dictionary[@"ArrayOfSets"][@"sets"]) {
+                         NSString *setsThemeName = [set[@"subtheme"] isEqualToString:@""] ? set[@"theme"] : set[@"subtheme"];
                          NSMutableDictionary *newSubtheme;
                          NSMutableArray *newArray;
                          BOOL subthemeExists = FALSE;
-                         int subthemeIndex = 0;
+                         NSNumber *subthemeIndex;
                          
                          // adds the initial subtheme
                          if ([DataStore sharedStore].subThemes.count == 0 || [DataStore sharedStore].subThemes == nil) {
                              newSubtheme = [[NSMutableDictionary alloc] init];
                              newArray = [NSMutableArray array];
-                             [newSubtheme setObject:newArray forKey:set[@"subtheme"]];
+                             [newSubtheme setObject:newArray forKey:setsThemeName];
                              
                              [[DataStore sharedStore].subThemes addObject:newSubtheme];
                          } else {
-                             // checks for all other subthemes
+                             // checks if subtheme already exists
                              for (int i = 0; i < [DataStore sharedStore].subThemes.count; i++) {
                                  NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:i];
                                  NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
                                  
-                                 if([set[@"subtheme"] isEqualToString:subThemeName]){
+                                 if([setsThemeName isEqualToString:subThemeName]){
                                      subthemeExists = TRUE;
-                                     subthemeIndex = i;
+                                     subthemeIndex = [[NSNumber alloc] initWithInt:i];
+                                     break;
                                  }
                              }
                              
@@ -221,14 +223,15 @@ NSURLSessionDataTask *_dataTask;
                              if(subthemeExists == FALSE){
                                  newSubtheme = [[NSMutableDictionary alloc] init];
                                  newArray = [NSMutableArray array];
-                                 [newSubtheme setObject:newArray forKey:set[@"subtheme"]];
+                                 [newSubtheme setObject:newArray forKey:setsThemeName];
                                  
                                  [[DataStore sharedStore].subThemes addObject:newSubtheme];
+                                 subthemeIndex = [[NSNumber alloc] initWithInt:[DataStore sharedStore].subThemes.count - 1];
                              }
                          }
                          
                          // add the set
-                         [[[DataStore sharedStore].subThemes objectAtIndex:subthemeIndex][set[@"subtheme"]] addObject:set];
+                         [[[DataStore sharedStore].subThemes objectAtIndex:[subthemeIndex intValue]][setsThemeName] addObject:set];
                      } //end for set in dictionary
                      
                      NSLog(@"Subthemes = %@",[DataStore sharedStore].subThemes);
