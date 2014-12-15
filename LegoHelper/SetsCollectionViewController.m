@@ -23,6 +23,8 @@
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
+    [self.navigationItem setHidesBackButton:YES];
+    
     // Do any additional setup after loading the view.
     self.headerReferenceSize = CGSizeMake(200, 50);
     

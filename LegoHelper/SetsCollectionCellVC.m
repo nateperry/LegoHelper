@@ -15,9 +15,6 @@
 // creates the cell to be displayed
 - (SetsCollectionCellVC *)buildCellWithSet:(NSDictionary *)currentSet {
     
-    //rgb(52, 73, 94)
-    self.backgroundColor = [UIColor colorWithRed:0.2039 green:0.2862 blue:0.3686 alpha:1.0];
-    
     // load the template
     NSString *path = [[NSBundle mainBundle] pathForResource:@"SetsCellTemplate" ofType:@"html"];
     NSString *template = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];

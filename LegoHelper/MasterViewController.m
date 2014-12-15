@@ -32,22 +32,9 @@
     }
 }
 
-- (void)themesDidLoad:(NSNotification*)notification{
-    //refresh master view
-    NSLog(@"themes loaded");
-    
-    //reload the data on the main thread
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    NSLog(@"%s", __FUNCTION__);
-
 
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
@@ -59,14 +46,14 @@
 
 // Handles selection of theme
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    self.detailViewController.detailItem = [[DataStore sharedStore].themes objectAtIndex:indexPath.row][@"theme"];
+    NSString *newTheme = [[DataStore sharedStore].themes objectAtIndex:indexPath.row][@"theme"];
     
-    /*
-    DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-    controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    controller.navigationItem.leftItemsSupplementBackButton = YES;
-    */
-    //[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    if (![newTheme isEqualToString:self.detailViewController.detailItem]) {
+        self.detailViewController.detailItem = newTheme;
+        NSLog(@"different theme selected");
+    } else {
+        NSLog(@"same theme selected");
+    }
 }
 
 #pragma mark - Segues
@@ -101,4 +88,14 @@
     return cell;
 }
 
+#pragma mark - Notifications
+
+- (void)themesDidLoad:(NSNotification*)notification{
+    //refreshes master view
+    
+    //reload the data on the main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
 @end

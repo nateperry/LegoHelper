@@ -25,11 +25,7 @@
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
-    
-    
-    
-    // TODO: [splitViewController performSegueWithIdentifier:@"showModalSegue" sender:splitViewController];
-    
+   
     
     /*
     * Load in appropriate data

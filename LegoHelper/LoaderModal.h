@@ -10,4 +10,6 @@
 
 @interface LoaderModal : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+
 @end
