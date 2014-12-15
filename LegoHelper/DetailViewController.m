@@ -18,7 +18,6 @@
 @implementation DetailViewController
 
 LoaderModal *_loaderModal;
-UICollectionViewController *_setCollectionVC;
 bool _themesLoaded = FALSE;
 
 - (void)awakeFromNib {
@@ -45,7 +44,6 @@ bool _themesLoaded = FALSE;
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        [DataStore sharedStore].currentTheme = _detailItem;
         
         // Update the view.
         [self configureView];
@@ -83,8 +81,6 @@ bool _themesLoaded = FALSE;
     if (!_themesLoaded) {
         [self showModal];
     }
-    
-    //[self configureView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,7 +100,6 @@ bool _themesLoaded = FALSE;
     // TODO: Look into this running twice
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"subthemes loaded");
         [self performSegueWithIdentifier:@"showSubthemeList" sender:self];
         [self hideModal];
     });

@@ -29,6 +29,7 @@
     if (self) {
         self.themes = [[NSMutableArray alloc] init];
         self.subThemes = [[NSMutableArray alloc] init];
+        self.currentInstructionsURL = [[NSMutableString alloc] init];
     }
     return self;
 }

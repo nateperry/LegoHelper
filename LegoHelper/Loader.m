@@ -15,6 +15,7 @@
 // Cubiculus
 NSString *CUBICULUS_API_KEY = @"c6KLoXImuUmshxX5k9C8tPbTeMaKp18hau6jsnZn58ihe9I4Aj";
 NSString *CUBICULUS_API_SINGLESET_URL = @"https://cubiculussets.p.mashape.com/lego-set/10l1g6blg76coa1o20deb7aa93q8a2ak6ad7m0k7viis14tjsnddbco24obnckb9/";
+NSString *CUBICULUS_API_SINGLESET_INSTRUCTIONS_URL = @"http://www.cubiculus.com/api-rest/building-instruction/";
 
 // Brickset
 NSString *BRICKSET_API_KEY = @"llWF-mCRi-MhQV";
@@ -119,6 +120,32 @@ NSURLSessionDataTask *_dataTask;
 }
 
 // download the data via NSURLSession
+- (void) loadSetInstructions:(NSString *)setID {
+
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    
+    //create new session
+    _session = [NSURLSession sessionWithConfiguration:config];
+    
+    //show the activity indicator
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    //the url
+    NSString *string = [NSString stringWithFormat:@"%@getInstructions?apiKey=%@&setID=%@", BRICKSET_API_URL, BRICKSET_API_KEY, setID];
+    NSURL *url = [NSURL URLWithString:[string stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding]];
+    
+    //build request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    //request resource
+    _dataTask = [_session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){[self completionHandler:data :response :error :FALSE];}];
+    
+    //resume dataTask
+    [_dataTask resume];
+    
+}
+
+// download the data via NSURLSession
 - (void) loadSet:(NSString *)setID {
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
@@ -190,79 +217,20 @@ NSURLSessionDataTask *_dataTask;
                  }
                  
                  if (dictionary[@"ArrayOfSets"]) {
-                     [[DataStore sharedStore].subThemes removeAllObjects]; // reset the array
-                     
-                     // checks for case of only one set (eg. The Simpsons)
-                     if ([dictionary[@"ArrayOfSets"][@"sets"] isKindOfClass:[NSArray class]]) {
-                         // if its an array, go through it all
-                         for (NSDictionary *set in dictionary[@"ArrayOfSets"][@"sets"]) {
-                             NSString *setsThemeName = ([set[@"subtheme"] isEqualToString:@""]) ? set[@"theme"] : set[@"subtheme"];
-                             NSMutableDictionary *newSubtheme;
-                             NSMutableArray *newArray;
-                             BOOL subthemeExists = FALSE;
-                             NSNumber *subthemeIndex;
-                             
-                             // adds the initial subtheme
-                             if ([DataStore sharedStore].subThemes.count == 0 || [DataStore sharedStore].subThemes == nil) {
-                                 newSubtheme = [[NSMutableDictionary alloc] init];
-                                 newArray = [NSMutableArray array];
-                                 [newSubtheme setObject:newArray forKey:setsThemeName];
-                                 
-                                 [[DataStore sharedStore].subThemes addObject:newSubtheme];
-                             } else {
-                                 // checks if subtheme already exists
-                                 for (int i = 0; i < [DataStore sharedStore].subThemes.count; i++) {
-                                     NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:i];
-                                     NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
-                                     
-                                     if([setsThemeName isEqualToString:subThemeName]){
-                                         subthemeExists = TRUE;
-                                         subthemeIndex = [[NSNumber alloc] initWithInt:i];
-                                         break;
-                                     }
-                                 }
-                                 
-                                 // adds the new subtheme if needed
-                                 if(subthemeExists == FALSE){
-                                     newSubtheme = [[NSMutableDictionary alloc] init];
-                                     newArray = [NSMutableArray array];
-                                     [newSubtheme setObject:newArray forKey:setsThemeName];
-                                     
-                                     [[DataStore sharedStore].subThemes addObject:newSubtheme];
-                                     subthemeIndex = [[NSNumber alloc] initWithInt:[DataStore sharedStore].subThemes.count - 1];
-                                 }
-                             }
-                             
-                             // add the set
-                             [[[DataStore sharedStore].subThemes objectAtIndex:[subthemeIndex intValue]][setsThemeName] addObject:set];
-                         } //end for set in dictionary
-                     } else {
-                         // if not an array (only one set), handle it as a signle item
-                         NSDictionary *set = dictionary[@"ArrayOfSets"][@"sets"];
-                         NSString *setsThemeName = ([set[@"subtheme"] isEqualToString:@""]) ? set[@"theme"] : set[@"subtheme"];
-                         
-                         NSMutableDictionary *newSubtheme = [[NSMutableDictionary alloc] init];
-                         NSMutableArray *newArray = [NSMutableArray array];
-                         [newSubtheme setObject:newArray forKey:setsThemeName];
-                         
-                         [[DataStore sharedStore].subThemes addObject:newSubtheme];
-
-                         [[[DataStore sharedStore].subThemes objectAtIndex:0][setsThemeName] addObject:set];
-                     }
-                     
-                     // NSLog(@"Subthemes = %@",[DataStore sharedStore].subThemes);
-                     
-                     //post the notif
-                     [[NSNotificationCenter defaultCenter]
-                      postNotificationName:@"SubThemesDidLoad"
-                      object:nil];
+                     [self arrayOfSetsHandler:dictionary];
                      
                  } //end if arrayofsets
+                 
+                 if (dictionary[@"ArrayOfInstructions"]) {
+                     [self arrayOfInstructionsHandler:dictionary[@"ArrayOfInstructions"]];
+                 }
                 
              }];
         } //end else
     } // end if statuscode
 }
+
+#pragma mark - Response Helpers
 
 // handles the response error
 - (void) onLoadError:(NSError *)error {
@@ -278,76 +246,91 @@ NSURLSessionDataTask *_dataTask;
         return FALSE;
 }
 
+#pragma mark - Response Handlers
 
-#pragma - mark NSXMLParser delegate
-
-// parsing started
-- (void) parserDidStartDocument:(NSXMLParser *)parser {
-    // NSLog(@"PARSING FILE STARTED");
+- (void) arrayOfInstructionsHandler:(NSDictionary *)dictionary {
+    if (dictionary[@"instructions"] && [dictionary[@"instructions"] isKindOfClass:[NSString class]]) {
+        [DataStore sharedStore].currentInstructionsURL = dictionary[@"instructions"][@"URL"];
+    } else if ([dictionary[@"instructions"] isKindOfClass:[NSArray class]]) {
+        [DataStore sharedStore].currentInstructionsURL = [dictionary[@"instructions"] objectAtIndex:0][@"URL"];
+    }
+    
+    //post the notif
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"InstructionsURLDidLoad"
+     object:nil];
 }
 
-// parsing complete
-- (void) parserDidEndDocument:(NSXMLParser *)parser {
-
-    if (! _isSubThemeRequest) {
-        //NSLog(@"THEMES = %@", _themes);
-        [DataStore sharedStore].themes = _themes;
-        
-        //post the notif
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"ThemesDidLoad"
-         object:nil];
+// Sanitizes and sorts all sets from a theme
+// and builds groupings for subthemes
+- (void) arrayOfSetsHandler:(NSDictionary *)dictionary {
+    
+    [[DataStore sharedStore].subThemes removeAllObjects]; // reset the array
+    
+    // checks for case of only one set (eg. The Simpsons)
+    if ([dictionary[@"ArrayOfSets"][@"sets"] isKindOfClass:[NSArray class]]) {
+        // if its an array, go through it all
+        for (NSDictionary *set in dictionary[@"ArrayOfSets"][@"sets"]) {
+            NSString *setsThemeName = ([set[@"subtheme"] isEqualToString:@""]) ? set[@"theme"] : set[@"subtheme"];
+            NSMutableDictionary *newSubtheme;
+            NSMutableArray *newArray;
+            BOOL subthemeExists = FALSE;
+            NSNumber *subthemeIndex;
+            
+            // adds the initial subtheme
+            if ([DataStore sharedStore].subThemes.count == 0 || [DataStore sharedStore].subThemes == nil) {
+                newSubtheme = [[NSMutableDictionary alloc] init];
+                newArray = [NSMutableArray array];
+                [newSubtheme setObject:newArray forKey:setsThemeName];
+                
+                [[DataStore sharedStore].subThemes addObject:newSubtheme];
+            } else {
+                // checks if subtheme already exists
+                for (int i = 0; i < [DataStore sharedStore].subThemes.count; i++) {
+                    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:i];
+                    NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
+                    
+                    if([setsThemeName isEqualToString:subThemeName]){
+                        subthemeExists = TRUE;
+                        subthemeIndex = [[NSNumber alloc] initWithInt:i];
+                        break;
+                    }
+                }
+                
+                // adds the new subtheme if needed
+                if(subthemeExists == FALSE){
+                    newSubtheme = [[NSMutableDictionary alloc] init];
+                    newArray = [NSMutableArray array];
+                    [newSubtheme setObject:newArray forKey:setsThemeName];
+                    
+                    [[DataStore sharedStore].subThemes addObject:newSubtheme];
+                    subthemeIndex = [[NSNumber alloc] initWithInt:[DataStore sharedStore].subThemes.count - 1];
+                }
+            }
+            
+            // add the set
+            [[[DataStore sharedStore].subThemes objectAtIndex:[subthemeIndex intValue]][setsThemeName] addObject:set];
+            
+        } //end for set in dictionary
     } else {
-        //NSLog(@"SUBTHEMES = %@", _subThemes);
-        [DataStore sharedStore].subThemes = _subThemes;
+        // if not an array (only one set), handle it as a signle item
+        NSDictionary *set = dictionary[@"ArrayOfSets"][@"sets"];
+        NSString *setsThemeName = ([set[@"subtheme"] isEqualToString:@""]) ? set[@"theme"] : set[@"subtheme"];
         
-        //post the notif
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"SubThemesDidLoad"
-         object:nil];
-    }
-    
-    // end the data session
-    [_dataTask cancel];
-}
-
-// sets current element
-/*
-- (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    _elementValue = [[NSMutableString alloc] init];
-    if ([elementName isEqualToString:@"theme"]) {
-        currentElement = [elementName copy];
-    }
-    
-    if([elementName isEqualToString:@"ArrayOfSubthemes"]) {
-        _isSubThemeRequest = TRUE;
-    }
-    
-    if (_isSubThemeRequest && [elementName isEqualToString:@"subtheme"]) {
-        currentElement = [elementName copy];
-    }
-}
-
-// adds the value of the node to the array
-- (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if ([elementName isEqualToString:@"theme"] && ! [_elementValue containsString:@"{Undefined}"]) {
-        [_themes addObject:_elementValue];
-    }
-    if ([elementName isEqualToString:@"subtheme"] && ! [_elementValue containsString:@"{None}"]) {
-        [_subThemes addObject:_elementValue];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
-    if ([currentElement isEqualToString:@"theme"] || [currentElement isEqualToString:@"subtheme"]) {
+        NSMutableDictionary *newSubtheme = [[NSMutableDictionary alloc] init];
+        NSMutableArray *newArray = [NSMutableArray array];
+        [newSubtheme setObject:newArray forKey:setsThemeName];
         
-        // remove the quotes
-        NSString *str = [string stringByReplacingOccurrencesOfString:@"\'" withString:@""];
-        // add the trimmed theme name
-        [_elementValue appendString:[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        [[DataStore sharedStore].subThemes addObject:newSubtheme];
+        
+        [[[DataStore sharedStore].subThemes objectAtIndex:0][setsThemeName] addObject:set];
     }
-
+    
+    //post the notif
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"SubThemesDidLoad"
+     object:nil];
 }
-*/
+
 
 @end

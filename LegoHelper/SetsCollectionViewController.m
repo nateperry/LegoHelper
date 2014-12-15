@@ -9,6 +9,7 @@
 #import "SetsCollectionViewController.h"
 #import "SetsCollectionCellVC.h"
 #import "SectionHeaderCollectionReusableView.h"
+#import "Loader.h"
 #import "DataStore.h"
 
 @interface SetsCollectionViewController ()
@@ -21,7 +22,7 @@
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = NO;
     
     [self.navigationItem setHidesBackButton:YES];
     
@@ -79,6 +80,7 @@
         // create the cell with helper method
         cell = [cell buildCellWithSet:currentSet];
     }
+    
     return cell;
 }
 
@@ -91,7 +93,7 @@
 }
 */
 
-
+/*
 // Uncomment this method to specify if the specified item should be selected
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
@@ -109,6 +111,25 @@
 
 - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     NSLog(@"Collction Item Clicked");
+}*/
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
+    
+    NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
+    
+    NSMutableArray *arrayOfSets = subtheme[subThemeName];
+    
+    NSDictionary *selectedSet = [arrayOfSets objectAtIndex:indexPath.row];
+    
+    Loader *loader = [[Loader alloc] init];
+    [loader loadSetInstructions:selectedSet[@"setID"]];
+    
+    
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    
+    [self performSegueWithIdentifier:@"ShowInstructions" sender:self];
 }
 
 #pragma mark – UICollectionViewDelegateFlowLayout

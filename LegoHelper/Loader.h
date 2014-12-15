@@ -11,9 +11,13 @@
 
 @interface Loader : NSObject<NSXMLParserDelegate>
 
+// BrickSet API
 - (void) loadAllThemes;
 - (void) loadSubThemes:(id)theme;
-- (void) loadSet:(NSString *)setID;
 - (void) loadSets:(NSString *)themeName;
+
+// Cubiculus API
+- (void) loadSet:(NSString *)setID;
+- (void) loadSetInstructions:(NSString *)setID;
     
 @end

@@ -81,9 +81,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="250"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <webView contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="AXd-zM-UMk">
+                                        <webView userInteractionEnabled="NO" contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="AXd-zM-UMk">
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="200" id="6P8-fJ-bLa"/>
                                             </constraints>
@@ -97,7 +97,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.44320863770000002" green="0.66025627730000003" blue="0.79507048229999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="AXd-zM-UMk" firstAttribute="top" secondItem="1Sq-3d-z18" secondAttribute="top" id="hhq-ey-szk"/>
                                     <constraint firstItem="AXd-zM-UMk" firstAttribute="leading" secondItem="1Sq-3d-z18" secondAttribute="leading" id="pCs-os-bSj"/>
@@ -132,10 +132,47 @@
                         </connections>
                     </collectionView>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <segue destination="9MV-A5-9PM" kind="show" identifier="ShowInstructions" id="FoP-VG-fZm"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PuI-Uo-ChL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1557" y="129"/>
+        </scene>
+        <!--InstructionsVC-->
+        <scene sceneID="DhS-Cq-4te">
+            <objects>
+                <viewController id="9MV-A5-9PM" customClass="InstructionsVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="F52-nA-G5k"/>
+                        <viewControllerLayoutGuide type="bottom" id="s2g-lV-vKM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="csy-gN-eQW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JMO-nd-AGj">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <dataDetectorType key="dataDetectorTypes"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.55842523359999996" green="0.82440694729999997" blue="0.99405407909999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="s2g-lV-vKM" firstAttribute="top" secondItem="JMO-nd-AGj" secondAttribute="bottom" id="1MD-dX-u2G"/>
+                            <constraint firstAttribute="trailing" secondItem="JMO-nd-AGj" secondAttribute="trailing" id="KKA-rN-Nvh"/>
+                            <constraint firstItem="JMO-nd-AGj" firstAttribute="leading" secondItem="csy-gN-eQW" secondAttribute="leading" id="SeC-er-t7W"/>
+                            <constraint firstItem="JMO-nd-AGj" firstAttribute="top" secondItem="csy-gN-eQW" secondAttribute="top" id="rVK-6r-PxW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="JMO-nd-AGj" id="aOP-pg-FU5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="azF-8R-xHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2291" y="129"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -232,6 +269,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <splitViewDetailSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="webView" destination="YkR-r9-zD7" id="e73-x6-zMp"/>
                     </connections>

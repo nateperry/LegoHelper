@@ -11,7 +11,7 @@
 @interface DataStore : NSObject
 @property (nonatomic) NSMutableArray *themes;
 @property (nonatomic) NSMutableArray *subThemes;
-@property (nonatomic) NSMutableString *currentTheme;
+@property (nonatomic) NSMutableString *currentInstructionsURL;
 
 + (instancetype) sharedStore;
 

@@ -13,7 +13,7 @@
 @property (strong, nonatomic) id detailItem;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
-@property NSMutableArray *subThemes;
+@property (nonatomic, weak) UICollectionViewController *setCollectionVC;
 
 @end
 

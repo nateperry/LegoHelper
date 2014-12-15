@@ -50,9 +50,8 @@
     
     if (![newTheme isEqualToString:self.detailViewController.detailItem]) {
         self.detailViewController.detailItem = newTheme;
-        NSLog(@"different theme selected");
     } else {
-        NSLog(@"same theme selected");
+       //TODO: need to prevent detail view from refreshing when theme is selected a second time 
     }
 }
 
@@ -85,6 +84,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
     cell.textLabel.text = [[DataStore sharedStore].themes objectAtIndex:indexPath.row][@"theme"];
+    
+    // changes selection color
+    UIView *cellBg = [[UIView alloc] init];
+    /// rgb(231, 76, 60)
+    cellBg.backgroundColor = [UIColor colorWithRed:(231.0/255.0) green:(76.0/255.0) blue:(60.0/255.0)     alpha:1.0]; // this RGB value for blue color
+    cellBg.layer.masksToBounds = YES;
+    cell.selectedBackgroundView = cellBg;
+    
     return cell;
 }
 
