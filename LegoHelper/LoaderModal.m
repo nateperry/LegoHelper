@@ -21,6 +21,7 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"LoaderModalTemplate" ofType:@"html"];
     NSString *template = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSMutableString *html = [NSMutableString stringWithString:template];
+    
     // allows use of local files
     NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
     NSURL *baseURL = [NSURL fileURLWithPath:bundlePath];

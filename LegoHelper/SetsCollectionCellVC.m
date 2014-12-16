@@ -8,12 +8,17 @@
 //
 
 #import "SetsCollectionCellVC.h"
+#import "Set.h"
 #import "DataStore.h"
 
 @implementation SetsCollectionCellVC
 
 // creates the cell to be displayed
-- (SetsCollectionCellVC *)buildCellWithSet:(NSDictionary *)currentSet {
+- (SetsCollectionCellVC *)buildCellWithSet:(Set *)currentSet {
+    
+    self.layer.cornerRadius = 6.0;
+    
+    self.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
     
     // load the template
     NSString *path = [[NSBundle mainBundle] pathForResource:@"SetsCellTemplate" ofType:@"html"];
@@ -21,19 +26,12 @@
     NSMutableString *html = [NSMutableString stringWithString:template];
         
     // make substitutions
-    NSString *thumbnailPath = (! [currentSet[@"largeThumbnailURL"] isEqualToString:@""] && [currentSet objectForKey:@"largeThumbnailURL"]) ? currentSet[@"largeThumbnailURL"] : @"http://3.bp.blogspot.com/-fXcS1HZUQ3c/UauO7EeKzKI/AAAAAAAAU_U/mzwFdnFfpyo/s1600/pitr_LEGO_smiley_--_sad.png";
-    [html replaceOccurrencesOfString:@"[[[thumbnail]]]" withString:thumbnailPath options:NSLiteralSearch range:NSMakeRange(0, html.length)];
+    [html replaceOccurrencesOfString:@"[[[thumbnail]]]" withString:currentSet.thumbnailURL options:NSLiteralSearch range:NSMakeRange(0, html.length)];
     
-    // resize webview
-    CGRect frame = [self.webView frame];
-    frame.size.height = 200;
-    frame.size.width = 200;
-    [self.webView setFrame:frame];
-        
     // load html string into webView
     [self.webView loadHTMLString:html baseURL:nil];
         
-    self.label.text = currentSet[@"name"];
+    self.label.text = currentSet.name;
 
     return self;
 }

@@ -100,8 +100,9 @@ bool _themesLoaded = FALSE;
     // TODO: Look into this running twice
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self performSegueWithIdentifier:@"showSubthemeList" sender:self];
         [self hideModal];
+        [self performSegueWithIdentifier:@"showSubthemeList" sender:self];
+        
     });
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -111,7 +112,6 @@ bool _themesLoaded = FALSE;
 
 - (void)showModal {
     // NSLog(@"%s", __func__);
-    //[self performSegueWithIdentifier:@"ShowLoader" sender:self];
     [self presentViewController:_loaderModal animated:YES completion:nil];
 }
 

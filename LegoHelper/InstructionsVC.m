@@ -9,6 +9,8 @@
 #import "InstructionsVC.h"
 #import "DataStore.h"
 
+#define WEBVIEW_ERROR_PAGE @"http://3.bp.blogspot.com/-fXcS1HZUQ3c/UauO7EeKzKI/AAAAAAAAU_U/mzwFdnFfpyo/s1600/pitr_LEGO_smiley_--_sad.png"
+
 @interface InstructionsVC ()
 
 @end
@@ -33,9 +35,17 @@
 }
 
 - (void) reloadWebView {
-    NSURL *url = [[NSURL alloc] initWithString:[DataStore sharedStore].currentInstructionsURL];
+    NSURL *url;
+    BOOL showingError = false;
+    if ([[DataStore sharedStore].currentInstructionsURL length] != 0) {
+        url = [[NSURL alloc] initWithString:[DataStore sharedStore].currentInstructionsURL];
+    } else {
+        url = [[NSURL alloc] initWithString:WEBVIEW_ERROR_PAGE];
+        showingError = true;
+    }
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     [_webView loadRequest:request];
+    
 }
 
 #pragma mark - Notifcations

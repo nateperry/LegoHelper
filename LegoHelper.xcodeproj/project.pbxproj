@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3F0408B11A21252D00F76411 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F0408B01A21252D00F76411 /* DataStore.m */; };
+		3F5B4E9F1A3F9B64004A89A7 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5B4E9E1A3F9B64004A89A7 /* WebKit.framework */; };
+		3F5B4EA61A3FE49A004A89A7 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B4EA51A3FE49A004A89A7 /* Theme.m */; };
+		3F5B4EA91A3FEAD4004A89A7 /* Subtheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B4EA81A3FEAD4004A89A7 /* Subtheme.m */; };
+		3F5B4EAC1A3FF499004A89A7 /* Set.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B4EAB1A3FF499004A89A7 /* Set.m */; };
+		3F5B4EAE1A3FFBB2004A89A7 /* loader.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3F5B4EAD1A3FFBB2004A89A7 /* loader.gif */; };
 		3F7D0A651A1EA42800D7BA01 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A641A1EA42800D7BA01 /* main.m */; };
 		3F7D0A681A1EA42800D7BA01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A671A1EA42800D7BA01 /* AppDelegate.m */; };
 		3F7D0A6B1A1EA42800D7BA01 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F7D0A6A1A1EA42800D7BA01 /* MasterViewController.m */; };
@@ -20,7 +25,6 @@
 		3F99004F1A3D440C0045EE9E /* SectionHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F99004E1A3D440C0045EE9E /* SectionHeaderCollectionReusableView.m */; };
 		3FC36C1B1A3112D50060AC71 /* LoaderModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC36C1A1A3112D50060AC71 /* LoaderModal.m */; };
 		3FF5A2B21A3E510B00200E0F /* LoaderModalTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = 3FF5A2B11A3E510B00200E0F /* LoaderModalTemplate.html */; };
-		3FF5A2B31A3E54E300200E0F /* loader.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3FF5A2B51A3E54E300200E0F /* loader.gif */; };
 		3FF5A2B91A3E9A2B00200E0F /* InstructionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF5A2B81A3E9A2B00200E0F /* InstructionsVC.m */; };
 		3FFC8F621A3CEF32003042E5 /* XMLConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8F611A3CEF32003042E5 /* XMLConverter.m */; };
 		3FFC8F651A3CFA72003042E5 /* SetsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FFC8F641A3CFA72003042E5 /* SetsCollectionViewController.m */; };
@@ -41,6 +45,14 @@
 /* Begin PBXFileReference section */
 		3F0408AF1A21252D00F76411 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStore.h; sourceTree = "<group>"; };
 		3F0408B01A21252D00F76411 /* DataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStore.m; sourceTree = "<group>"; };
+		3F5B4E9E1A3F9B64004A89A7 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		3F5B4EA41A3FE49A004A89A7 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		3F5B4EA51A3FE49A004A89A7 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
+		3F5B4EA71A3FEAD4004A89A7 /* Subtheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Subtheme.h; sourceTree = "<group>"; };
+		3F5B4EA81A3FEAD4004A89A7 /* Subtheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Subtheme.m; sourceTree = "<group>"; };
+		3F5B4EAA1A3FF499004A89A7 /* Set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Set.h; sourceTree = "<group>"; };
+		3F5B4EAB1A3FF499004A89A7 /* Set.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Set.m; sourceTree = "<group>"; };
+		3F5B4EAD1A3FFBB2004A89A7 /* loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loader.gif; sourceTree = "<group>"; };
 		3F7D0A5F1A1EA42800D7BA01 /* LegoHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegoHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F7D0A631A1EA42800D7BA01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F7D0A641A1EA42800D7BA01 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -63,7 +75,6 @@
 		3FC36C191A3112D50060AC71 /* LoaderModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoaderModal.h; sourceTree = "<group>"; };
 		3FC36C1A1A3112D50060AC71 /* LoaderModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoaderModal.m; sourceTree = "<group>"; };
 		3FF5A2B11A3E510B00200E0F /* LoaderModalTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = LoaderModalTemplate.html; sourceTree = "<group>"; };
-		3FF5A2B41A3E54E300200E0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = Base; path = Base.lproj/loader.gif; sourceTree = "<group>"; };
 		3FF5A2B71A3E9A2B00200E0F /* InstructionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsVC.h; sourceTree = "<group>"; };
 		3FF5A2B81A3E9A2B00200E0F /* InstructionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsVC.m; sourceTree = "<group>"; };
 		3FFC8F601A3CEF32003042E5 /* XMLConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLConverter.h; sourceTree = "<group>"; };
@@ -80,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F5B4E9F1A3F9B64004A89A7 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +108,7 @@
 		3F7D0A561A1EA42800D7BA01 = {
 			isa = PBXGroup;
 			children = (
+				3F5B4E9E1A3F9B64004A89A7 /* WebKit.framework */,
 				3F7D0A611A1EA42800D7BA01 /* LegoHelper */,
 				3F7D0A7E1A1EA42800D7BA01 /* LegoHelperTests */,
 				3F7D0A601A1EA42800D7BA01 /* Products */,
@@ -172,12 +185,18 @@
 		3F7D0A8C1A1EA6AF00D7BA01 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3F5B4EA41A3FE49A004A89A7 /* Theme.h */,
+				3F5B4EA51A3FE49A004A89A7 /* Theme.m */,
 				3FFC8F601A3CEF32003042E5 /* XMLConverter.h */,
 				3FFC8F611A3CEF32003042E5 /* XMLConverter.m */,
 				3F7D0A8D1A1EA6CE00D7BA01 /* Loader.h */,
 				3F7D0A8E1A1EA6CE00D7BA01 /* Loader.m */,
 				3F0408AF1A21252D00F76411 /* DataStore.h */,
 				3F0408B01A21252D00F76411 /* DataStore.m */,
+				3F5B4EA71A3FEAD4004A89A7 /* Subtheme.h */,
+				3F5B4EA81A3FEAD4004A89A7 /* Subtheme.m */,
+				3F5B4EAA1A3FF499004A89A7 /* Set.h */,
+				3F5B4EAB1A3FF499004A89A7 /* Set.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -185,7 +204,7 @@
 		3F8936571A2FC455006CC78B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				3FF5A2B51A3E54E300200E0F /* loader.gif */,
+				3F5B4EAD1A3FFBB2004A89A7 /* loader.gif */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -302,9 +321,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F7D0A711A1EA42800D7BA01 /* Main.storyboard in Resources */,
-				3FF5A2B31A3E54E300200E0F /* loader.gif in Resources */,
 				3F7D0A761A1EA42800D7BA01 /* LaunchScreen.xib in Resources */,
 				3F7D0A731A1EA42800D7BA01 /* Images.xcassets in Resources */,
+				3F5B4EAE1A3FFBB2004A89A7 /* loader.gif in Resources */,
 				3FFC8F6B1A3D03CC003042E5 /* SetsCellTemplate.html in Resources */,
 				3FF5A2B21A3E510B00200E0F /* LoaderModalTemplate.html in Resources */,
 			);
@@ -327,12 +346,15 @@
 				3F7D0A681A1EA42800D7BA01 /* AppDelegate.m in Sources */,
 				3F7D0A6B1A1EA42800D7BA01 /* MasterViewController.m in Sources */,
 				3F7D0A651A1EA42800D7BA01 /* main.m in Sources */,
+				3F5B4EAC1A3FF499004A89A7 /* Set.m in Sources */,
 				3F7D0A6E1A1EA42800D7BA01 /* DetailViewController.m in Sources */,
 				3FFC8F681A3D0099003042E5 /* SetsCollectionCellVC.m in Sources */,
 				3FC36C1B1A3112D50060AC71 /* LoaderModal.m in Sources */,
+				3F5B4EA91A3FEAD4004A89A7 /* Subtheme.m in Sources */,
 				3FFC8F621A3CEF32003042E5 /* XMLConverter.m in Sources */,
 				3FFC8F651A3CFA72003042E5 /* SetsCollectionViewController.m in Sources */,
 				3F7D0A8F1A1EA6CE00D7BA01 /* Loader.m in Sources */,
+				3F5B4EA61A3FE49A004A89A7 /* Theme.m in Sources */,
 				3FF5A2B91A3E9A2B00200E0F /* InstructionsVC.m in Sources */,
 				3F99004F1A3D440C0045EE9E /* SectionHeaderCollectionReusableView.m in Sources */,
 				3F0408B11A21252D00F76411 /* DataStore.m in Sources */,
@@ -372,14 +394,6 @@
 				3F7D0A751A1EA42800D7BA01 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		3FF5A2B51A3E54E300200E0F /* loader.gif */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3FF5A2B41A3E54E300200E0F /* Base */,
-			);
-			name = loader.gif;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

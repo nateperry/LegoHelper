@@ -15,9 +15,6 @@
 - (void) loadAllThemes;
 - (void) loadSubThemes:(id)theme;
 - (void) loadSets:(NSString *)themeName;
-
-// Cubiculus API
-- (void) loadSet:(NSString *)setID;
 - (void) loadSetInstructions:(NSString *)setID;
     
 @end

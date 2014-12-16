@@ -35,6 +35,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    self.filteredArray = [NSMutableArray arrayWithCapacity:[[DataStore sharedStore].themes count]];
 
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
@@ -46,29 +48,19 @@
 
 // Handles selection of theme
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *newTheme = [[DataStore sharedStore].themes objectAtIndex:indexPath.row][@"theme"];
     
-    if (![newTheme isEqualToString:self.detailViewController.detailItem]) {
-        self.detailViewController.detailItem = newTheme;
+    NSString *newTheme;
+    
+    // Checks if the item clicked is part of search results
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        newTheme = [[_filteredArray objectAtIndex:indexPath.row] name];
     } else {
-       //TODO: need to prevent detail view from refreshing when theme is selected a second time 
+        newTheme = [[[DataStore sharedStore].themes objectAtIndex:indexPath.row] name];
     }
-}
+    
+    self.detailViewController.detailItem = newTheme;
 
-#pragma mark - Segues
-
-/*
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = [[DataStore sharedStore].allItems objectAtIndex:indexPath.row];
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        [controller setDetailItem:object];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
-    }
 }
-*/
 
 #pragma mark - Table View
 
@@ -77,13 +69,26 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [DataStore sharedStore].themes.count;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [_filteredArray count];
+    } else {
+        return [DataStore sharedStore].themes.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ThemeCell"];
+    
+    NSString *themeName;
+    
+    // Check to see whether the normal table or search results table is being displayed
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        themeName = [[_filteredArray objectAtIndex:indexPath.row] name];
+    } else {
+        themeName = [[[DataStore sharedStore].themes objectAtIndex:indexPath.row] name];
+    }
 
-    cell.textLabel.text = [[DataStore sharedStore].themes objectAtIndex:indexPath.row][@"theme"];
+    cell.textLabel.text = themeName;
     
     // changes selection color
     UIView *cellBg = [[UIView alloc] init];
@@ -104,5 +109,35 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
     });
+}
+
+#pragma mark Content Filtering
+
+// handles searching
+-(void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+    // Update the filtered array based on the search text and scope.
+    // Remove all objects from the filtered search array
+    [self.filteredArray removeAllObjects];
+    // Filter the array using NSPredicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
+    _filteredArray = [NSMutableArray arrayWithArray:[[DataStore sharedStore].themes filteredArrayUsingPredicate:predicate]];
+}
+
+#pragma mark - UISearchDisplayController Delegate Methods
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    // Tells the table data source to reload when text changes
+    [self filterContentForSearchText:searchString scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+    // Tells the table data source to reload when scope bar selection changes
+    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
 }
 @end

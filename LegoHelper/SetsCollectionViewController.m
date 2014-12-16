@@ -10,6 +10,8 @@
 #import "SetsCollectionCellVC.h"
 #import "SectionHeaderCollectionReusableView.h"
 #import "Loader.h"
+#import "Subtheme.h"
+#import "Set.h"
 #import "DataStore.h"
 
 @interface SetsCollectionViewController ()
@@ -54,11 +56,9 @@
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:section];
-    
-    NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
-    
-    return [subtheme[subThemeName] count];
+    Subtheme *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:section];
+
+    return [subtheme.arrayOfSets count];
 }
 
 // Creates the actual cells
@@ -66,16 +66,12 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SetsCollectionCellVC *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SetCell" forIndexPath:indexPath];
     
-    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
-    
-    NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
-    
-    NSMutableArray *arrayOfSets = subtheme[subThemeName];
+    Subtheme *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
     
     NSDictionary *currentSet;
     
-    if ([arrayOfSets count] > 0) {
-        currentSet = [arrayOfSets objectAtIndex:indexPath.row];
+    if ([subtheme.arrayOfSets count] > 0) {
+        currentSet = [subtheme.arrayOfSets objectAtIndex:indexPath.row];
         
         // create the cell with helper method
         cell = [cell buildCellWithSet:currentSet];
@@ -86,50 +82,24 @@
 
 #pragma mark <UICollectionViewDelegate>
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return YES;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-    NSLog(@"Collction Item Clicked");
-}*/
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UICollectionViewCell* cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.contentView.backgroundColor = [UIColor whiteColor];
 
-    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
+    Subtheme *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
     
-    NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
-    
-    NSMutableArray *arrayOfSets = subtheme[subThemeName];
-    
-    NSDictionary *selectedSet = [arrayOfSets objectAtIndex:indexPath.row];
+    Set *selectedSet = [subtheme.arrayOfSets objectAtIndex:indexPath.row];
     
     Loader *loader = [[Loader alloc] init];
-    [loader loadSetInstructions:selectedSet[@"setID"]];
-    
-    
-    [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    [loader loadSetInstructions:selectedSet.setID];
     
     [self performSegueWithIdentifier:@"ShowInstructions" sender:self];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell* cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.contentView.backgroundColor = [UIColor colorWithRed:(131.0/255.0) green:(183.0/255.0) blue:(212.0/255.0) alpha:1.0];
 }
 
 #pragma mark – UICollectionViewDelegateFlowLayout
@@ -161,11 +131,9 @@
 
 - (void)updateSectionHeader:(SectionHeaderCollectionReusableView *)header forIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
+    Subtheme *subtheme = [[DataStore sharedStore].subThemes objectAtIndex:indexPath.section];
     
-    NSString *subThemeName = [[subtheme allKeys] objectAtIndex:0];
-    
-    header.label.text = subThemeName;
+    header.label.text = subtheme.name;
 }
 
 
