@@ -206,7 +206,7 @@ NSURLSessionDataTask *_dataTask;
     if (httpResp.statusCode == 200)
         return TRUE;
     else
-        NSLog(@"STATUSCODE = %i, response = %@", httpResp.statusCode, httpResp);
+        NSLog(@"STATUSCODE = %li, response = %@", (long)httpResp.statusCode, httpResp);
         return FALSE;
 }
 
@@ -290,7 +290,7 @@ NSURLSessionDataTask *_dataTask;
                     newSubtheme.name = set.theme;
                     
                     [[DataStore sharedStore].subThemes addObject:newSubtheme];
-                    subthemeIndex = [[NSNumber alloc] initWithInt:[DataStore sharedStore].subThemes.count - 1];
+                    subthemeIndex = [[NSNumber alloc] initWithInt:(int)[DataStore sharedStore].subThemes.count - 1];
                 }
             }
 

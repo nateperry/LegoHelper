@@ -77,7 +77,6 @@ bool _themesLoaded = FALSE;
     [self.view addSubview:_loaderModal.view];
     [_loaderModal.view.window setRootViewController:self.view.window.rootViewController];
     
-    
     if (!_themesLoaded) {
         [self showModal];
     }

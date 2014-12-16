@@ -37,7 +37,6 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     self.filteredArray = [NSMutableArray arrayWithCapacity:[[DataStore sharedStore].themes count]];
-
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 

@@ -185,6 +185,7 @@
             <objects>
                 <splitViewController id="H1p-Uh-vWS" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <segue destination="RMx-3f-FxP" kind="relationship" relationship="masterViewController" id="BlO-5A-QYV"/>
                         <segue destination="vC3-pB-5Vb" kind="relationship" relationship="detailViewController" id="Tll-UG-LXB"/>
@@ -249,7 +250,8 @@
                     <keyCommands/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="searchDisplayController" destination="n9Z-8W-eyZ" id="3Hp-KH-Uha"/>
+                        <outlet property="searchBar" destination="0Rf-Z6-dCU" id="ZVH-Q0-iqz"/>
+                        <outlet property="searchDisplayController" destination="n9Z-8W-eyZ" id="Zfy-BY-IHm"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
